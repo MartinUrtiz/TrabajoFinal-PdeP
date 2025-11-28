@@ -1,17 +1,12 @@
 import { Tarea } from "../models/tarea";
-import { FileSystem } from "../utils/filesystem";
 
 const RUTA_DB = "./src/database/tareas.json";
 
 export class TareaService {
 
-    private cargarTareas(): Tarea[] {
-        const data = FileSystem.leerJSON(RUTA_DB);
-        return data.map((t: any) => Object.assign(new Tarea("", ""), t));
-    }
-
+    private cargarTareas(): Tarea[] {}
     private guardarTareas(tareas: Tarea[]): void {
-        FileSystem.guardarJSON(RUTA_DB, tareas);
+
     }
 
     public crearTarea(
