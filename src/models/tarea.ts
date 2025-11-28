@@ -6,7 +6,7 @@ export class Tarea implements ITarea{
     public titulo: string;
     public descripcion: string;
     public estado: EstadoTarea;
-    public readonly fechaCreacion: Date;
+    public fechaCreacion: Date;
     public ultimaEdicion: Date;
     public vencimiento: Date | null;
     public dificultad: number;
@@ -48,4 +48,14 @@ export class Tarea implements ITarea{
     private actualizarFechaEdicion(): void {
         this.ultimaEdicion = new Date();
     }
+
+    public static fromJSON(data: any): Tarea {
+        const tarea = new Tarea(data.titulo);
+        Object.assign(tarea, data);
+        tarea.fechaCreacion = new Date(data.fechaCreacion);
+        tarea.ultimaEdicion = new Date(data.ultimaEdicion);
+        tarea.vencimiento = data.vencimiento ? new Date(data.vencimiento) : null;
+        return tarea;
+    }
+    
 }
