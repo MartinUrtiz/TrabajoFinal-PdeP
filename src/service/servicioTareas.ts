@@ -43,4 +43,16 @@ public obtenerEstadisticas() {
             acumulador[estado] = (acumulador[estado] || 0) + 1;
             return acumulador;
         }, {} as Record<string, number>); 
+// 2. Conteo por Dificultad usando 
+        const porDificultad = activas.reduce((acumulador, tarea) => {
+            const nivel = `Nivel ${tarea.dificultad}`; // Ej: "Nivel 1"
+            acumulador[nivel] = (acumulador[nivel] || 0) + 1;
+            return acumulador;
+        }, {} as Record<string, number>);
+
+        return { 
+            total, 
+            porEstado, 
+            porDificultad 
+        };
     }
