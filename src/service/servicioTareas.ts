@@ -33,6 +33,14 @@ export class ServicioTareas {
     }
 
 public obtenerEstadisticas() {
-        // Solo contamos las tareas activas (no las eliminadas)
+        // Solo contamos las tareas activas 
         const activas = this.obtenerActivas();
-        const total = activas.length; }
+        const total = activas.length;
+        // 1. Conteo por Estado usando Reduce
+        const porEstado = activas.reduce((acumulador, tarea) => {
+            const estado = tarea.estado;
+            // Si ya existe la clave, suma 1, sino inicializa en 1
+            acumulador[estado] = (acumulador[estado] || 0) + 1;
+            return acumulador;
+        }, {} as Record<string, number>); 
+    }
