@@ -31,4 +31,8 @@ export class ServicioTareas {
 
     public listarTareas(): Tarea[] {
     }
-}
+
+public obtenerEstadisticas() {
+        // Solo contamos las tareas activas (no las eliminadas)
+        const activas = this.obtenerActivas();
+        const total = activas.length; }
