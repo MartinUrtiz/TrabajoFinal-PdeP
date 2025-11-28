@@ -10,7 +10,7 @@ export class Tarea implements ITarea{
     public ultimaEdicion: Date;
     public vencimiento: Date | null;
     public dificultad: number;
-    public activo: boolean; // Para Soft Delete
+    public activo: boolean; 
 
         constructor(
         titulo: string,
@@ -26,7 +26,21 @@ export class Tarea implements ITarea{
         this.ultimaEdicion = new Date();
         this.vencimiento = vencimiento;
         this.dificultad = dificultad;
-        this.activo = true; // Nace activo por defecto
+        this.activo = true; 
     }
 
+    //Realiza un Soft Delete .
+    public eliminar(): void {
+        this.activo = false;
+        this.actualizarFechaEdicion();
+    }
+
+    // Reactiva una tarea eliminada.
+        public restaurar(): void {
+        this.activo = true;
+        this.actualizarFechaEdicion();
+    }
+    private actualizarFechaEdicion(): void {
+        this.ultimaEdicion = new Date();
+    }
 }
