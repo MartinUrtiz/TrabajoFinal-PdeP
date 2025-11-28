@@ -29,6 +29,11 @@ export class Tarea implements ITarea{
         this.activo = true; 
     }
 
+    public cambiarEstado(nuevoEstado: EstadoTarea): void {
+        this.estado = nuevoEstado;
+        this.ultimaEdicion = new Date(); //actualiza la fecha de edición
+    }
+
     //Realiza un Soft Delete .
     public eliminar(): void {
         this.activo = false;
