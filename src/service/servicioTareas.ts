@@ -1,4 +1,5 @@
 import { Tarea } from "../models/tarea";
+import { CriterioOrden } from '../types/tiposTarea';
 
 const RUTA_DB = "./src/database/tareas.json";
 
