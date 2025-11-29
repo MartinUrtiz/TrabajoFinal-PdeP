@@ -18,7 +18,7 @@ export class Tarea implements ITarea{
         vencimiento: Date | null = null,
         dificultad = 1
     ) {
-        this.id = uuidv4();
+        this.id = uuidv4().substring(0, 4);
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.estado = 'pendiente';

@@ -103,13 +103,14 @@ async function verEstadisticasController() {
     console.log(`Total de Tareas Activas: ${stats.total}`);
 
     console.log('\n--- Por Estado ---');
-    console.table(stats.porEstado);
+    console.log(stats.porEstado);
 
     console.log('\n--- Por Dificultad ---');
-    console.table(stats.porDificultad);
-//bonus
+    console.log(stats.porDificultad);
+
     const completadas = stats.porEstado['terminada'] || 0;
     const porcentaje = stats.total > 0 ? ((completadas / stats.total) * 100).toFixed(1) : 0;
+    console.log('\n --- Progreso ---');
     console.log(`Progreso Global: ${porcentaje}% completado`);
 }
 
