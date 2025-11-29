@@ -19,12 +19,12 @@ function mostrarTarea(t: Tarea) {
     const estrellas = '⭐'.repeat(t.dificultad);
     console.log(`--------------------------------------------------`);
     console.log(`ID: ${t.id}`);
-    console.log(`📌 ${t.titulo} [${t.estado.toUpperCase()}]`);
-    console.log(`📊 Dificultad: ${estrellas}`);
-    if (t.descripcion) console.log(`📝 Desc: ${t.descripcion}`);
-    console.log(`📅 Creada: ${t.fechaCreacion.toLocaleString()}`);
-    if (t.vencimiento) console.log(`⏰ Vence: ${t.vencimiento.toLocaleString()}`);
-    console.log(`✏️  Editada: ${t.ultimaEdicion.toLocaleString()}`);
+    console.log(`${t.titulo} [${t.estado.toUpperCase()}]`);
+    console.log(`Dificultad: ${estrellas}`);
+    if (t.descripcion) console.log(`Desc: ${t.descripcion}`);
+    console.log(`Creada: ${t.fechaCreacion.toLocaleString()}`);
+    if (t.vencimiento) console.log(`Vence: ${t.vencimiento.toLocaleString()}`);
+    console.log(`Editada: ${t.ultimaEdicion.toLocaleString()}`);
 }
 
 async function crearNuevaTarea() {
@@ -40,6 +40,26 @@ async function crearNuevaTarea() {
     const nuevaTarea = new Tarea(titulo, desc, vencimiento, dificultad);
     servicio.agregarTarea(nuevaTarea);
     console.log('Tarea creada.');
+}
+
+async function listarTareasController() {
+    const activas = servicio.obtenerActivas();
+    if (activas.length === 0) {
+        console.log('No hay tareas activas.');
+        return;
+    }
+
+    console.log('\nOrdenar por: 1.Titulo, 2.Vencimiento, 3.Creación, 4.Dificultad');
+    const op = await leerEntrada('Opción: ');
+    let criterio: CriterioOrden = 'creacion';
+    
+    if (op === '1') criterio = 'titulo';
+    if (op === '2') criterio = 'vencimiento';
+    if (op === '3') criterio = 'creacion';
+    if (op === '4') criterio = 'dificultad';
+
+    const tareasOrdenadas = servicio.ordenarPor(criterio);
+    tareasOrdenadas.forEach(mostrarTarea);
 }
 
 async function eliminarTareaController() {
