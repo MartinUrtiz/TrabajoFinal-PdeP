@@ -6,6 +6,7 @@ import { CriterioOrden, EstadoTarea } from './types/tiposTarea';
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const repositorio = new RepositorioTareas();
+let servicio: ServicioTareas;
 
 function leerEntrada(pregunta: string): Promise<string> {
     return new Promise(resolve => rl.question(pregunta, (ans) => resolve(ans.trim())));
@@ -128,4 +129,52 @@ async function consultasAvanzadasController() {
         console.log('No hay resultados.');
     }
 }
+
+async function main() {
+
+    const datos = await repositorio.cargarTodas();
+    servicio = new ServicioTareas(datos);
+
+    let salir = false;
+
+    while (!salir) {
+        console.clear();
+        console.log('\nSISTEMA DE TAREAS 2.0');
+        console.log('1. Crear Tarea');
+        console.log('2. Listar Tareas (Con ordenamiento)');
+        console.log('3. Modificar Estado');
+        console.log('4. Eliminar Tarea');
+        console.log('5. Estadísticas');
+        console.log('6. Consultas Avanzadas');
+        console.log('7. Guardar y Salir');
+
+        const opcion = await leerEntrada('Selecciona: ');
+
+        try {
+            switch (opcion) {
+                case '1': await crearNuevaTarea(); break;
+                case '2': await listarTareasController(); break;
+                case '3': await cambiarEstadoController(); break;
+                case '4': await eliminarTareaController(); break;
+                case '5': await verEstadisticasController(); break;
+                case '6': await consultasAvanzadasController(); break;
+                case '7':
+                    console.log('Guardando cambios...');
+                    await repositorio.guardarTodas(servicio.obtenerTodas());
+                    salir = true;
+                    break;
+                default: console.log('Opción no válida');
+            }
+        } catch (error) {
+            console.error('Ocurrió un error:', error);
+        }
+
+        if (!salir) await pausa();
+    }
+
+    rl.close();
+    console.log('¡Adiós!');
+}
+
+main();
 
