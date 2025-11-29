@@ -22,7 +22,7 @@ export class ServicioTareas {
     }
 
 public obtenerEstadisticas() {
-        // Solo contamos las tareas activas 
+        // Contamos las tareas activas 
         const activas = this.obtenerActivas();
         const total = activas.length;
         
