@@ -4,17 +4,28 @@ import { RepositorioTareas } from './data/repositorio';
 import { ServicioTareas } from './services/servicioTareas';
 import { CriterioOrden, EstadoTarea } from './types/tiposTarea';
 
-const repositorio = new RepositorioTareas();
-let servicio = new ServicioTareas;
-
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const repositorio = new RepositorioTareas();
+let servicio: ServicioTareas;
 
-export function leerEntrada(pregunta: string): Promise<string> {
+function leerEntrada(pregunta: string): Promise<string> {
     return new Promise(resolve => rl.question(pregunta, (ans) => resolve(ans.trim())));
 }
 
-export function pausa(): Promise<string> {
+function pausa(): Promise<string> {
     return leerEntrada('\nPresiona ENTER para continuar...');
+}
+
+function mostrarTarea(t: Tarea) {
+    const estrellas = '⭐'.repeat(t.dificultad);
+    console.log(`--------------------------------------------------`);
+    console.log(`ID: ${t.id}`);
+    console.log(`📌 ${t.titulo} [${t.estado.toUpperCase()}]`);
+    console.log(`📊 Dificultad: ${estrellas}`);
+    if (t.descripcion) console.log(`📝 Desc: ${t.descripcion}`);
+    console.log(`📅 Creada: ${t.fechaCreacion.toLocaleString()}`);
+    if (t.vencimiento) console.log(`⏰ Vence: ${t.vencimiento.toLocaleString()}`);
+    console.log(`✏️  Editada: ${t.ultimaEdicion.toLocaleString()}`);
 }
 
 async function eliminarTareaController() {
