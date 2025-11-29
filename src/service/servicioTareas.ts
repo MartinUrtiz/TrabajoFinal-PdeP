@@ -22,15 +22,9 @@ export class ServicioTareas {
         return nueva;
     }
 
-    public buscarPorId(id: string): Tarea[]{
-    }
-
     public eliminarTarea(id: string): boolean {
 
         return true;
-    }
-
-    public listarTareas(): Tarea[] {
     }
 
     public obtenerActivas(): Tarea[] {
@@ -79,3 +73,4 @@ public obtenerEstadisticas() {
             porDificultad 
         };
     }
+}
