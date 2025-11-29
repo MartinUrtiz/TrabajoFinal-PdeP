@@ -63,6 +63,14 @@ public obtenerEstadisticas() {
         );
     }
 
+    public obtenerRelacionadas(tareaBase: Tarea): Tarea[] {
+        const palabrasClave = tareaBase.titulo.split(' ').filter(p => p.length > 3);
+        return this.obtenerActivas().filter(t => 
+            t.id !== tareaBase.id && 
+            palabrasClave.some(palabra => t.titulo.includes(palabra))
+        );
+    }
+
     public ordenarPor(criterio: CriterioOrden): Tarea[] {
         const copia = [...this.obtenerActivas()]; // Inmutabilidad
         
