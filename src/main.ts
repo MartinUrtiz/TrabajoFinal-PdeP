@@ -118,11 +118,23 @@ async function consultasAvanzadasController() {
     console.log('\n --- CONSULTAS ---');
     console.log('1. Ver Vencidas');
     console.log('2. Ver Prioridad Alta (Difíciles y no terminadas)');
+    console.log('3. Ver Tareas Relacionadas');
     const op = await leerEntrada('Opción: ');
 
     let resultado: Tarea[] = [];
     if (op === '1') resultado = servicio.obtenerVencidas();
     if (op === '2') resultado = servicio.obtenerPrioridadAlta();
+    if (op === '3') {
+    const idBase = await leerEntrada('Ingresa el ID de la tarea base: ');
+    
+    const tareaBase = servicio.buscarPorId(idBase);
+
+    if (tareaBase) {
+        resultado = servicio.obtenerRelacionadas(tareaBase);
+    } else {
+        console.log('ID no encontrado. No se puede buscar relaciones.');
+    }
+}
 
     if (resultado.length > 0) {
         resultado.forEach(mostrarTarea);
