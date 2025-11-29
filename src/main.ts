@@ -28,4 +28,17 @@ async function eliminarTareaController() {
     } else {
         console.log(' Tarea no encontrada o ya eliminada.');
     }
- }
+  }
+ async function verEstadisticasController() { 
+    console.log(' --- REPORTES Y ESTADÍSTICAS ---');
+    const stats = servicio.obtenerEstadisticas();
+    
+    console.log(`Total de Tareas Activas: ${stats.total}`);
+    
+    console.log('\n--- Por Estado ---');
+    console.table(stats.porEstado);
+    
+    console.log('\n--- Por Dificultad ---');
+    console.table(stats.porDificultad);
+     }
+      
