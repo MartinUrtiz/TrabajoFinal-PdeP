@@ -22,9 +22,12 @@ export class ServicioTareas {
         return nueva;
     }
 
-    public eliminarTarea(id: string): boolean {
+    public obtenerTodas(): Tarea[] {
+        return this.tareas;
+    }
 
-        return true;
+    public agregarTarea(tarea: Tarea): void {
+        this.tareas.push(tarea);
     }
 
     public obtenerActivas(): Tarea[] {
