@@ -16,3 +16,8 @@ export function leerEntrada(pregunta: string): Promise<string> {
 export function pausa(): Promise<string> {
     return leerEntrada('\nPresiona ENTER para continuar...');
 }
+
+async function eliminarTareaController() {
+    const id = await leerEntrada('Ingresa el ID de la tarea a eliminar: ');
+    const tarea = servicio.buscarPorId(id);
+}
