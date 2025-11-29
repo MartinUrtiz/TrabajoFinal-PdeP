@@ -20,60 +20,63 @@ export class ServicioTareas {
     public obtenerActivas(): Tarea[] {
         return this.tareas.filter(t => t.activo);
     }
-
-public obtenerEstadisticas() {
+    public buscarPorId(id: string): Tarea | undefined {
+        // Funcional: find
+        return this.tareas.find(t => t.id === id && t.activo);
+    }
+    public obtenerEstadisticas() {
         // Contamos las tareas activas 
         const activas = this.obtenerActivas();
         const total = activas.length;
-        
+
         const porEstado = activas.reduce((acumulador, tarea) => {
             const estado = tarea.estado;
             // Si ya existe la clave, suma 1, sino inicializa en 1
             acumulador[estado] = (acumulador[estado] || 0) + 1;
             return acumulador;
-        }, {} as Record<string, number>); 
+        }, {} as Record<string, number>);
 
         const porDificultad = activas.reduce((acumulador, tarea) => {
-            const nivel = `Nivel ${tarea.dificultad}`; 
+            const nivel = `Nivel ${tarea.dificultad}`;
             acumulador[nivel] = (acumulador[nivel] || 0) + 1;
             return acumulador;
         }, {} as Record<string, number>);
 
-        return { 
-            total, 
-            porEstado, 
-            porDificultad 
+        return {
+            total,
+            porEstado,
+            porDificultad
         };
     }
 
     public obtenerVencidas(): Tarea[] {
         const hoy = new Date();
-        return this.obtenerActivas().filter(t => 
-            t.vencimiento !== null && 
-            t.vencimiento < hoy && 
+        return this.obtenerActivas().filter(t =>
+            t.vencimiento !== null &&
+            t.vencimiento < hoy &&
             t.estado !== 'terminada'
         );
     }
 
     public obtenerPrioridadAlta(): Tarea[] {
         // Asumimos que Dificultad 3 es "Alta Prioridad"
-        return this.obtenerActivas().filter(t => 
-            t.dificultad === 3 && 
+        return this.obtenerActivas().filter(t =>
+            t.dificultad === 3 &&
             t.estado !== 'terminada'
         );
     }
 
     public obtenerRelacionadas(tareaBase: Tarea): Tarea[] {
         const palabrasClave = tareaBase.titulo.split(' ').filter(p => p.length > 3);
-        return this.obtenerActivas().filter(t => 
-            t.id !== tareaBase.id && 
+        return this.obtenerActivas().filter(t =>
+            t.id !== tareaBase.id &&
             palabrasClave.some(palabra => t.titulo.includes(palabra))
         );
     }
 
     public ordenarPor(criterio: CriterioOrden): Tarea[] {
         const copia = [...this.obtenerActivas()]; // Inmutabilidad
-        
+
         // Diccionario de funciones comparadoras
         const comparadores: Record<CriterioOrden, (a: Tarea, b: Tarea) => number> = {
             titulo: (a, b) => a.titulo.localeCompare(b.titulo),
