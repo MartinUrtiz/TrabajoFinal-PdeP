@@ -20,4 +20,12 @@ export function pausa(): Promise<string> {
 async function eliminarTareaController() {
     const id = await leerEntrada('Ingresa el ID de la tarea a eliminar: ');
     const tarea = servicio.buscarPorId(id);
-}
+    if (tarea) {
+        // Usamos el método de la clase (OOP)
+        tarea.eliminar();
+        console.log(' Tarea eliminada correctamente (Soft Delete).');
+        console.log('   (Puedes recuperarla editando el archivo JSON si fue un error)');
+    } else {
+        console.log(' Tarea no encontrada o ya eliminada.');
+    }
+ }
