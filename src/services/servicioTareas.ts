@@ -66,12 +66,24 @@ export class ServicioTareas {
         );
     }
 
-    public obtenerRelacionadas(tareaBase: Tarea): Tarea[] {
-        const palabrasClave = tareaBase.titulo.split(' ').filter(p => p.length > 3);
-        return this.obtenerActivas().filter(t =>
-            t.id !== tareaBase.id &&
-            palabrasClave.some(palabra => t.titulo.includes(palabra))
-        );
+   public obtenerRelacionadas(tareaBase: Tarea): Tarea[] {
+    const tituloBase = tareaBase.titulo.toLowerCase();
+
+        const palabrasClave = tituloBase
+            .split(' ')
+            .filter(palabra => palabra.length > 3);
+
+        if (palabrasClave.length === 0) return [];
+
+        return this.obtenerActivas().filter(tarea => {
+            if (tarea.id === tareaBase.id) return false;
+            const tituloComparar = tarea.titulo.toLowerCase();
+            const tieneCoincidencia = palabrasClave.some(palabra => 
+                tituloComparar.includes(palabra)
+            );
+
+            return tieneCoincidencia;
+        });
     }
 
     public ordenarPor(criterio: CriterioOrden): Tarea[] {
