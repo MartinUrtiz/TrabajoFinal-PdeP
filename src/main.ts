@@ -62,6 +62,27 @@ async function listarTareasController() {
     tareasOrdenadas.forEach(mostrarTarea);
 }
 
+async function cambiarEstadoController() {
+    const id = await leerEntrada('ID de la tarea: ');
+    const tarea = servicio.buscarPorId(id);
+
+    if (!tarea) {
+        console.log('Tarea no encontrada.');
+        return;
+    }
+
+    console.log('Estados: pendiente, en curso, terminada, cancelada');
+    const estado = await leerEntrada('Nuevo estado: ') as EstadoTarea;
+    
+    // Validación simple
+    if (['pendiente', 'en curso', 'terminada', 'cancelada'].includes(estado)) {
+        tarea.cambiarEstado(estado);
+        console.log('Estado actualizado.');
+    } else {
+        console.log('Estado inválido.');
+    }
+}
+
 async function eliminarTareaController() {
     const id = await leerEntrada('Ingresa el ID de la tarea a eliminar: ');
     const tarea = servicio.buscarPorId(id);
