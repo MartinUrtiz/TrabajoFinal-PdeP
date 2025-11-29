@@ -34,24 +34,6 @@ export class ServicioTareas {
         return this.tareas.filter(t => t.activo);
     }
 
-    public ordenarPor(criterio: CriterioOrden): Tarea[] {
-        const copia = [...this.obtenerActivas()]; // Inmutabilidad
-        
-        // Diccionario de funciones comparadoras
-        const comparadores: Record<CriterioOrden, (a: Tarea, b: Tarea) => number> = {
-            titulo: (a, b) => a.titulo.localeCompare(b.titulo),
-            dificultad: (a, b) => b.dificultad - a.dificultad, // Mayor a menor
-            creacion: (a, b) => a.fechaCreacion.getTime() - b.fechaCreacion.getTime(),
-            vencimiento: (a, b) => {
-                if (!a.vencimiento) return 1;
-                if (!b.vencimiento) return -1;
-                return a.vencimiento.getTime() - b.vencimiento.getTime();
-            }
-        };
-
-        return copia.sort(comparadores[criterio]);
-    }
-
 public obtenerEstadisticas() {
         // Solo contamos las tareas activas 
         const activas = this.obtenerActivas();
@@ -93,4 +75,23 @@ public obtenerEstadisticas() {
             t.estado !== 'terminada'
         );
     }
+
+    public ordenarPor(criterio: CriterioOrden): Tarea[] {
+        const copia = [...this.obtenerActivas()]; // Inmutabilidad
+        
+        // Diccionario de funciones comparadoras
+        const comparadores: Record<CriterioOrden, (a: Tarea, b: Tarea) => number> = {
+            titulo: (a, b) => a.titulo.localeCompare(b.titulo),
+            dificultad: (a, b) => b.dificultad - a.dificultad, // Mayor a menor
+            creacion: (a, b) => a.fechaCreacion.getTime() - b.fechaCreacion.getTime(),
+            vencimiento: (a, b) => {
+                if (!a.vencimiento) return 1;
+                if (!b.vencimiento) return -1;
+                return a.vencimiento.getTime() - b.vencimiento.getTime();
+            }
+        };
+
+        return copia.sort(comparadores[criterio]);
+    }
+
 }
