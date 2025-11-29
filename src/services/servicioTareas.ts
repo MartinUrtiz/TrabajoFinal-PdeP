@@ -25,16 +25,16 @@ public obtenerEstadisticas() {
         // Solo contamos las tareas activas 
         const activas = this.obtenerActivas();
         const total = activas.length;
-        // 1. Conteo por Estado usando Reduce
+        
         const porEstado = activas.reduce((acumulador, tarea) => {
             const estado = tarea.estado;
             // Si ya existe la clave, suma 1, sino inicializa en 1
             acumulador[estado] = (acumulador[estado] || 0) + 1;
             return acumulador;
         }, {} as Record<string, number>); 
-// 2. Conteo por Dificultad usando 
+
         const porDificultad = activas.reduce((acumulador, tarea) => {
-            const nivel = `Nivel ${tarea.dificultad}`; // Ej: "Nivel 1"
+            const nivel = `Nivel ${tarea.dificultad}`; 
             acumulador[nivel] = (acumulador[nivel] || 0) + 1;
             return acumulador;
         }, {} as Record<string, number>);
