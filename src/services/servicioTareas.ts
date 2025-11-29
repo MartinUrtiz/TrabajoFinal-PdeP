@@ -1,25 +1,12 @@
 import { Tarea } from "../models/tarea";
 import { CriterioOrden } from '../types/tiposTarea';
 
-const RUTA_DB = "./src/database/tareas.json";
 
 export class ServicioTareas {
     private tareas: Tarea[] = [];
 
     constructor(tareasIniciales: Tarea[] = []) {
         this.tareas = tareasIniciales;
-    }
-
-    public crearTarea(
-        titulo: string,
-        descripcion: string,
-        estado: "pendiente" | "en curso" | "terminada" | "cancelada",
-        vencimiento: Date | null,
-        dificultad: number
-    ): Tarea {
-        const nueva = new Tarea(titulo, descripcion, vencimiento, dificultad);
-        nueva.estado = estado;
-        return nueva;
     }
 
     public obtenerTodas(): Tarea[] {
