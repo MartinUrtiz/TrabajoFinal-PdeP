@@ -39,7 +39,7 @@ async function crearNuevaTarea() {
 
     const nuevaTarea = new Tarea(titulo, desc, vencimiento, dificultad);
     servicio.agregarTarea(nuevaTarea);
-    console.log('✅ Tarea creada.');
+    console.log('Tarea creada.');
 }
 
 async function eliminarTareaController() {
@@ -49,7 +49,7 @@ async function eliminarTareaController() {
         // Usamos el método de la clase (OOP)
         tarea.eliminar();
         console.log(' Tarea eliminada correctamente (Soft Delete).');
-        console.log('   (Puedes recuperarla editando el archivo JSON si fue un error)');
+        console.log(' (Puedes recuperarla editando el archivo JSON si fue un error)');
     } else {
         console.log(' Tarea no encontrada o ya eliminada.');
     }
@@ -71,4 +71,20 @@ async function verEstadisticasController() {
     console.log(`Progreso Global: ${porcentaje}% completado`);
 }
 
+async function consultasAvanzadasController() {
+    console.log('\n --- CONSULTAS ---');
+    console.log('1. Ver Vencidas');
+    console.log('2. Ver Prioridad Alta (Difíciles y no terminadas)');
+    const op = await leerEntrada('Opción: ');
+
+    let resultado: Tarea[] = [];
+    if (op === '1') resultado = servicio.obtenerVencidas();
+    if (op === '2') resultado = servicio.obtenerPrioridadAlta();
+
+    if (resultado.length > 0) {
+        resultado.forEach(mostrarTarea);
+    } else {
+        console.log('No hay resultados.');
+    }
+}
 
