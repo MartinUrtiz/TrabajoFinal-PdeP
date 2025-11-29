@@ -76,4 +76,21 @@ public obtenerEstadisticas() {
             porDificultad 
         };
     }
+
+    public obtenerVencidas(): Tarea[] {
+        const hoy = new Date();
+        return this.obtenerActivas().filter(t => 
+            t.vencimiento !== null && 
+            t.vencimiento < hoy && 
+            t.estado !== 'terminada'
+        );
+    }
+
+    public obtenerPrioridadAlta(): Tarea[] {
+        // Asumimos que Dificultad 3 es "Alta Prioridad"
+        return this.obtenerActivas().filter(t => 
+            t.dificultad === 3 && 
+            t.estado !== 'terminada'
+        );
+    }
 }
